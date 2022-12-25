@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Button from '../../../../components/Button/Button';
 
 const Form = () => {
   return (
@@ -26,13 +27,11 @@ const Form = () => {
             />
           </div>
         </div>
-        <button className='w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 py-2 text-white rounded-lg'>
-          Login
-        </button>
+        <Button title={'Login'} />
         <p className='mt-2 text-center text-gray-400'>
           You have an account?{' '}
           <Link to={'/'}>
-            <span className='text-gradient'>Register</span>
+            <span className='text-gradient'>Sign up</span>
           </Link>
         </p>
       </div>

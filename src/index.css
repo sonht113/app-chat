@@ -17,6 +17,10 @@ code {
 }
 
 @layer components {
+  .background-gradient {
+    @apply bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-800 w-full h-[100vh];
+  }
+
   .text-gradient {
     @apply bg-gradient-to-r from-indigo-500 to-pink-800 inline-block text-transparent bg-clip-text;
   }
@@ -32,4 +36,16 @@ code {
   .input-field {
     @apply border-2 focus:outline-none p-2 rounded-lg focus:border-rose-500 focus:border-2;
   }
+}
+
+#listRoom::-webkit-scrollbar {
+  width: 6px;
+  border-radius: 5px;
+  background-color: #f5f5f5;
+}
+
+#listRoom::-webkit-scrollbar-thumb {
+  /* background-color: #868686; */
+  background-image: linear-gradient(#7262f2, #ad54f0, #e349a4);
+  border-radius: 5px;
 }

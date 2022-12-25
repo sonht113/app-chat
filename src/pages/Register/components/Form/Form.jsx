@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import addAvatar from '../../../../assets/images/addAvatar.png';
+import Button from '../../../../components/Button/Button';
 
 const Form = () => {
   const [previewImage, setPreviewImage] = useState('');
@@ -9,7 +10,7 @@ const Form = () => {
     <div className='bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 w-full h-[100vh] flex justify-center items-center'>
       <div className='p-10 bg-white rounded-xl'>
         <div className='text-center mb-5'>
-          <span className='text-gradient font-medium text-4xl'>Register</span>
+          <span className='text-gradient font-medium text-4xl'>Sign up</span>
         </div>
         <div className='form w-[400px]'>
           <div className='form-group'>
@@ -68,9 +69,7 @@ const Form = () => {
             />
           </div>
         </div>
-        <button className='w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 py-2 text-white rounded-lg'>
-          Sign up
-        </button>
+        <Button title={'Sign up'} />
         <p className='mt-2 text-center text-gray-400'>
           You have an account?{' '}
           <Link to={'/login'}>
