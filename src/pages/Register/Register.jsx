@@ -3,9 +3,9 @@ import Form from './components/Form';
 
 const Register = () => {
   return (
-    <>
+    <React.Fragment>
       <Form />
-    </>
+    </React.Fragment>
   );
 };
 
