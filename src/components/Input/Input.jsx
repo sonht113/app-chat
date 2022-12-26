@@ -10,7 +10,9 @@ const Input = () => {
       <div className='flex justify-end items-center gap-3 pr-2'>
         <img className='cursor-pointer' src={Attach} alt='add img' />
         <img className='cursor-pointer' src={AddImage} alt='add img' />
-        <button className='px-2 py-1 border rounded-md text-sm'>Send</button>
+        <button className='px-3 py-1 border rounded-md text-sm bg-green-500 text-white'>
+          Send
+        </button>
       </div>
     </div>
   );

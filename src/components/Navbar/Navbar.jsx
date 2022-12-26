@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import ButtonLogout from '../ButtonLogout/ButtonLogout';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -19,12 +20,7 @@ const Navbar = () => {
           />
           <span className='text-white text-sm'>Trong Son</span>
         </div>
-        <button
-          className='py-1 px-3 border rounded-md text-gray-300 text-xs'
-          onClick={() => handleLogout()}
-        >
-          Logout
-        </button>
+        <ButtonLogout handleLogout={handleLogout} />
       </div>
     </div>
   );
