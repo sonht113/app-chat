@@ -1,6 +1,6 @@
 import React from 'react';
 import Sidebar from '../../components/Sidebar';
-import Chat from '../../components/Chat';
+import Chats from '../../components/Chats';
 
 const Home = () => {
   return (
@@ -9,8 +9,8 @@ const Home = () => {
         <div className='col-span-4 bg-[#3e3c61]'>
           <Sidebar />
         </div>
-        <div className='col-span-8'>
-          <Chat />
+        <div className='col-span-8 bg-[#7777a7]'>
+          <Chats />
         </div>
       </div>
     </div>
