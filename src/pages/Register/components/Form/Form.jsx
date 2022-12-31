@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import addAvatar from '../../../../assets/images/addAvatar.png';
 import Button from '../../../../components/Button/Button';
 
-const Form = () => {
+const Form = ({ handleSubmit }) => {
   const [previewImage, setPreviewImage] = useState('');
 
   return (
@@ -12,7 +12,7 @@ const Form = () => {
         <div className='text-center mb-5'>
           <span className='text-gradient font-medium text-4xl'>Sign up</span>
         </div>
-        <div className='form w-[400px]'>
+        <form className='form w-[400px]' onSubmit={handleSubmit}>
           <div className='form-group'>
             <label>Name:</label>
             <input
@@ -68,8 +68,8 @@ const Form = () => {
               }
             />
           </div>
-        </div>
-        <Button title={'Sign up'} />
+          <Button title={'Sign up'} />
+        </form>
         <p className='mt-2 text-center text-gray-400'>
           You have an account?{' '}
           <Link to={'/login'}>

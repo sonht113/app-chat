@@ -2,14 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../../../../components/Button/Button';
 
-const Form = () => {
+const Form = ({ handleSubmit }) => {
   return (
     <div className='bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 w-full h-[100vh] flex justify-center items-center'>
       <div className='p-10 bg-white rounded-xl'>
         <div className='text-center mb-5'>
           <span className='text-gradient font-medium text-4xl'>Login</span>
         </div>
-        <div className='form w-[400px]'>
+        <form className='form w-[400px]' onSubmit={handleSubmit}>
           <div className='form-group'>
             <label>Email:</label>
             <input
@@ -26,8 +26,8 @@ const Form = () => {
               placeholder='Enter your password...'
             />
           </div>
-        </div>
-        <Button title={'Login'} />
+          <Button title={'Login'} />
+        </form>
         <p className='mt-2 text-center text-gray-400'>
           You have an account?{' '}
           <Link to={'/'}>
