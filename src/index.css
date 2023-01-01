@@ -42,7 +42,7 @@ code {
   }
 
   .owner {
-    @apply bg-[#1977d6] text-white;
+    @apply bg-gradient-to-r from-indigo-500 to-purple-500 text-white;
   }
 }
 

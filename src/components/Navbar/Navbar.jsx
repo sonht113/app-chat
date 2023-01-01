@@ -4,11 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { auth } from '../../firebase';
 import ButtonLogout from '../ButtonLogout/ButtonLogout';
 
-const Navbar = () => {
+const Navbar = ({ currentUser, setCurrentUser }) => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     await signOut(auth);
+    setCurrentUser({});
     navigate('/login');
   };
   return (
@@ -18,10 +19,10 @@ const Navbar = () => {
         <div className='flex items-center mr-3'>
           <img
             className='w-[30px] h-[30px] object-cover rounded-full mr-2'
-            src='https://images.pexels.com/photos/14446254/pexels-photo-14446254.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load'
+            src={currentUser.photoURL}
             alt='avatar'
           />
-          <span className='text-white text-sm'>Trong Son</span>
+          <span className='text-white text-sm'>{currentUser.displayName}</span>
         </div>
         <ButtonLogout handleLogout={handleLogout} />
       </div>

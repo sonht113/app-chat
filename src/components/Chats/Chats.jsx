@@ -2,10 +2,10 @@ import React from 'react';
 import Chat from '../Chat';
 import Messages from '../Messages';
 
-const Chats = () => {
+const Chats = ({ currentUser }) => {
   return (
     <React.Fragment>
-      <Chat />
+      <Chat currentUser={currentUser} />
       <Messages />
     </React.Fragment>
   );

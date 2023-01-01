@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
 import Navbar from '../Navbar';
 import Room from '../Room/Room';
 import Search from '../Search';
 
-const Sidebar = () => {
-  const [moreRoom] = useState(true);
+const Sidebar = ({ users, setUserName, handleKey }) => {
+  const { currentUser, setCurrentUser } = useContext(AuthContext);
+
   return (
     <React.Fragment>
-      <Navbar />
-      <Search />
-      <div id={moreRoom ? 'listRoom' : ''} className='h-[630px]'>
-        {[1, 2, 3, 4343, 243, 43, 24, 32, 432].map((_item, index) => (
+      <Navbar currentUser={currentUser} setCurrentUser={setCurrentUser} />
+      <Search setUserName={setUserName} handleKey={handleKey} />
+      <div id={users.length > 0 ? 'listRoom' : ''} className='h-[630px]'>
+        {users.map((user, _index) => (
           <Room
-            key={index}
-            avatar={
-              'https://images.pexels.com/photos/14211152/pexels-photo-14211152.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load'
-            }
-            name='Trong Son'
+            key={user.id}
+            avatar={user.photoURL}
+            name={user.userName}
             endMessage='What are you doing?'
           />
         ))}
