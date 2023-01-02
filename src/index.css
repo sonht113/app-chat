@@ -46,7 +46,7 @@ code {
   }
 }
 
-#listRoom {
+.listRoom {
   overflow-y: scroll;
 }
 

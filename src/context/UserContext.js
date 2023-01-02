@@ -5,9 +5,9 @@ import { db } from '../firebase';
 export const UserContext = createContext();
 
 export const UserContextProvider = ({ children }) => {
-  const [users, setUsers] = useState([]);
+  const [user, setUser] = useState(null);
 
-  const handleGetUsers = async (keyWordSearch, setErr, currentUser) => {
+  const handleGetUser = async (keyWordSearch, setErr, currentUser) => {
     try {
       if (keyWordSearch !== '') {
         const q = query(
@@ -15,27 +15,29 @@ export const UserContextProvider = ({ children }) => {
           where('userName', '==', keyWordSearch)
         );
         const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-          doc.data() ? setUsers([doc.data()]) : setUsers([]);
-        });
-      } else {
-        const results = [];
-        const querySnapshot = await getDocs(collection(db, 'users'));
-        for (const doc of querySnapshot.docs) {
-          const user = doc.data();
-          if (user.email !== currentUser.email) {
-            results.push(doc.data());
-          }
+        if (querySnapshot.empty) {
+          setUser(null);
+        } else {
+          querySnapshot.forEach((doc) => {
+            const res = doc.data();
+            if (res && res.email !== currentUser.email) {
+              setUser(res);
+            } else {
+              setUser(null);
+            }
+          });
         }
-        setUsers([...results]);
+      } else {
+        setUser(null);
       }
     } catch (error) {
+      console.log(error);
       setErr(false);
     }
   };
 
   return (
-    <UserContext.Provider value={{ users, handleGetUsers }}>
+    <UserContext.Provider value={{ user, handleGetUser }}>
       {children}
     </UserContext.Provider>
   );
