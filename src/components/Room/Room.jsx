@@ -1,10 +1,12 @@
 import React from 'react';
 
-const Room = ({ avatar, name, endMessage, click }) => {
+const Room = ({ avatar, name, endMessage, click, activeRoom }) => {
   return (
     <div
       onClick={click}
-      className='px-10 cursor-pointer hover:bg-[#2e2d4b] py-5 duration-150 border-t border-b border-gray-500'
+      className={`px-10 cursor-pointer ${
+        activeRoom ? 'bg-[#2e2d4b]' : 'hover:bg-[#2e2d4b]'
+      } py-5 duration-150 border-t border-b border-gray-500`}
     >
       <div className='flex items-center'>
         <div className='relative'>

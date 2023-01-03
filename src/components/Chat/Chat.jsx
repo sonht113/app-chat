@@ -1,12 +1,12 @@
 import React from 'react';
 import { AddUser, More, Camera } from '../../assets/images/index';
 
-const Chat = ({ currentUser }) => {
+const Chat = ({ roomActive }) => {
   return (
     <div className='flex justify-between items-center px-5 h-[70px] bg-[#3e3c61]'>
       <div>
         <p className='text-white font-medium text-lg'>
-          {currentUser.displayName}
+          {roomActive.user.userName}
         </p>
         <div className='flex items-center'>
           <div className='w-[10px] h-[10px] bg-green-500 rounded-full mr-2'></div>

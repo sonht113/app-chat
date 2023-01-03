@@ -1,45 +1,59 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
-const Message = ({ owner }) => {
+const Message = ({ message, currentUser, data }) => {
+  const ref = useRef();
+
+  useEffect(() => {
+    ref.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [message]);
+
   return (
     <div
+      ref={ref}
       className={`flex ${
-        owner ? 'flex-row-reverse' : ''
+        message.senderId === currentUser.uid ? 'flex-row-reverse' : ''
       } px-2 pt-3 justify-start items-start gap-5 mb-5`}
     >
       <div className='flex flex-col items-center'>
         <img
           className='w-[40px] h-[40px] rounded-full object-cover'
-          src='https://images.pexels.com/photos/14446254/pexels-photo-14446254.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load'
+          src={
+            message.senderId === currentUser.uid
+              ? currentUser.photoURL
+              : data?.user?.photoURL
+          }
           alt='avatar'
         />
         <span className='text-xs text-gray-500'>Just now</span>
       </div>
-      <div className='flex flex-col justify-end items-end'>
-        <div className='max-w-[150px]'>
+      <div
+        className={`flex flex-col justify-end ${
+          message.senderId === currentUser.uid ? 'items-end' : 'items-start'
+        } `}
+      >
+        <div className='max-w-[150px] flex flex-col'>
+          {message.text && (
+            <p
+              className={`${
+                message.senderId === currentUser.uid ? 'owner' : 'guest'
+              } py-2 px-3 rounded-md text-sm`}
+            >
+              {message.text}
+            </p>
+          )}
           <p
             className={`${
-              owner ? 'owner' : 'guest'
-            } py-2 px-3 rounded-md text-sm mb-2 inline-block`}
-          >
-            Nostrud Lorem nisi officia sunt eu. Aliqua incididunt adipisicing
-            elit proident labore in consectetur exercitation sunt non non enim
-            sint. Dolor cupidatat occaecat in laboris commodo. Consequat nisi et
-            ea tempor ullamco quis ullamco nisi velit.
-          </p>
-          <p
-            className={`${
-              owner ? 'float-right' : 'float-left'
+              message.senderId === currentUser.uid
+                ? 'float-right'
+                : 'float-left'
             } text-xs text-gray-500`}
           >
             Đã xem...
           </p>
         </div>
-        {/* <img
-          className='w-[150px]'
-          src='https://images.pexels.com/photos/14446254/pexels-photo-14446254.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load'
-          alt='avatar'
-        /> */}
+        {message.image && (
+          <img className='w-[150px]' src={message.image} alt='avatar' />
+        )}
       </div>
     </div>
   );

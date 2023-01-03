@@ -47,6 +47,7 @@ code {
 }
 
 .listRoom {
+  height: 100%;
   overflow-y: scroll;
 }
 
@@ -63,11 +64,11 @@ code {
 }
 
 .messages {
-  height: calc(80vh - 70px);
+  height: calc(100vh - 70px);
 }
 
 .show-messages {
-  height: calc(80vh - 70px - 70px);
+  height: calc(100vh - 70px - 70px);
 }
 
 .scroll-view {

@@ -5,6 +5,7 @@ import {
   doc,
   updateDoc,
   serverTimestamp,
+  onSnapshot,
 } from 'firebase/firestore';
 
 import Sidebar from '../../components/Sidebar';
@@ -12,13 +13,17 @@ import Chats from '../../components/Chats';
 import { db } from '../../firebase';
 import { AuthContext } from '../../context/AuthContext';
 import { UserContext } from '../../context/UserContext';
+import { ChatContext } from '../../context/ChatContext';
 
 const Home = () => {
   const { currentUser } = useContext(AuthContext);
   const { handleGetUser } = useContext(UserContext);
+  const { data } = useContext(ChatContext);
 
   const [userName, setUserName] = useState('');
   const [err, setErr] = useState(false);
+  const [rooms, setRooms] = useState([]);
+  const [activeRoom, setActiveRoom] = useState('');
 
   const handleKey = (e) => {
     e.code === 'Enter' && handleGetUser(userName, setErr, currentUser);
@@ -29,7 +34,6 @@ const Home = () => {
       currentUser.uid > idUserSelect
         ? currentUser.uid + idUserSelect
         : idUserSelect + currentUser.uid;
-    console.log(roomId);
     try {
       const res = await getDoc(doc(db, 'rooms', roomId));
       if (!res.exists()) {
@@ -56,19 +60,42 @@ const Home = () => {
     }
   };
 
+  useEffect(() => {
+    const getRooms = () => {
+      if (currentUser.uid) {
+        const unsub = onSnapshot(
+          doc(db, 'userChats', currentUser.uid),
+          (doc) => {
+            const res = Object.entries(doc.data())[0];
+            if (res) {
+              data
+                ? setActiveRoom(data.user.userName)
+                : setActiveRoom(res[1]?.userInfo?.userName);
+            }
+            setRooms(doc.data());
+          }
+        );
+        return () => unsub();
+      }
+    };
+    currentUser.uid && getRooms();
+  }, [currentUser.uid, data]);
+
   return (
-    <div className='bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 w-full h-[100vh] flex justify-center items-center'>
-      <div className='border-2 rounded-lg w-[70%] h-[80vh] overflow-hidden grid grid-cols-12'>
+    <div className='h-[100vh]'>
+      <div className='grid grid-cols-12 h-full'>
         <div className='col-span-4 bg-[#3e3c61]'>
           <Sidebar
-            userName={userName}
             handleKey={handleKey}
             setUserName={setUserName}
             handleSelectRoom={handleSelectRoom}
+            rooms={rooms}
+            setActiveRoom={setActiveRoom}
+            activeRoom={activeRoom}
           />
         </div>
         <div className='col-span-8 bg-[#7777a7]'>
-          <Chats currentUser={currentUser} />
+          <Chats />
         </div>
       </div>
     </div>
