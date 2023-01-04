@@ -1,7 +1,7 @@
 import React from 'react';
 import Room from '../Room/Room';
 
-const Search = ({ setUserName, handleKey, user, handleSelectRoom }) => {
+const Search = ({ setUserName, handleKey, user, onSelectRoomSearch }) => {
   return (
     <div className='mb-5 border-b-2'>
       <input
@@ -14,7 +14,7 @@ const Search = ({ setUserName, handleKey, user, handleSelectRoom }) => {
       {user && (
         <Room
           click={() =>
-            handleSelectRoom(user?.id, user?.userName, user?.photoURL)
+            onSelectRoomSearch(user?.id, user?.userName, user?.photoURL)
           }
           avatar={user?.photoURL}
           name={user?.userName}

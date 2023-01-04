@@ -8,8 +8,8 @@ import {
   onSnapshot,
 } from 'firebase/firestore';
 
-import Sidebar from '../../components/Sidebar';
-import Chats from '../../components/Chats';
+import Sidebar from '../../layouts/Sidebar';
+import Chats from '../../layouts/Chats';
 import { db } from '../../firebase';
 import { AuthContext } from '../../context/AuthContext';
 import { UserContext } from '../../context/UserContext';
@@ -29,7 +29,11 @@ const Home = () => {
     e.code === 'Enter' && handleGetUser(userName, setErr, currentUser);
   };
 
-  const handleSelectRoom = async (idUserSelect, userNameSelect, photoURL) => {
+  const handleSelectRoomSearch = async (
+    idUserSelect,
+    userNameSelect,
+    photoURL
+  ) => {
     const roomId =
       currentUser.uid > idUserSelect
         ? currentUser.uid + idUserSelect
@@ -88,14 +92,20 @@ const Home = () => {
           <Sidebar
             handleKey={handleKey}
             setUserName={setUserName}
-            handleSelectRoom={handleSelectRoom}
+            handleSelectRoomSearch={handleSelectRoomSearch}
             rooms={rooms}
             setActiveRoom={setActiveRoom}
             activeRoom={activeRoom}
           />
         </div>
         <div className='col-span-8 bg-[#7777a7]'>
-          <Chats />
+          {data.roomId !== 'null' ? (
+            <Chats />
+          ) : (
+            <div className='w-full h-[100vh] flex justify-center items-center'>
+              <span className='text-white'>Please choose room chat...</span>
+            </div>
+          )}
         </div>
       </div>
     </div>

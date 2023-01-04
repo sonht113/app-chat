@@ -4,12 +4,21 @@ import { useNavigate } from 'react-router-dom';
 import { auth } from '../../firebase';
 import ButtonLogout from '../ButtonLogout/ButtonLogout';
 
-const Navbar = ({ currentUser, setCurrentUser }) => {
+const Navbar = ({
+  currentUser,
+  setCurrentUser,
+  setUser,
+  dispatch,
+  setActiveRoom,
+}) => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     await signOut(auth);
     setCurrentUser({});
+    dispatch({ type: 'LOGOUT_USER' });
+    setActiveRoom('');
+    setUser(null);
     navigate('/login');
   };
   return (

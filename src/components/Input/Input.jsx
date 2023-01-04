@@ -10,7 +10,9 @@ const Input = ({ click, setText, setFile, text }) => {
         onChange={(e) => setText(e.target.value)}
       />
       <div className='flex justify-end items-center gap-3 pr-2'>
-        <img className='cursor-pointer' src={Attach} alt='add img' />
+        <div>
+          <img className='cursor-pointer' src={Attach} alt='add img' />
+        </div>
         <input
           type='file'
           className='hidden'
