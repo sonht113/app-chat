@@ -49,19 +49,15 @@ const Messages = ({ messages }) => {
         },
         () => {
           getDownloadURL(upload.snapshot.ref).then(async (downloadUrl) => {
-            if (text !== '') {
-              await updateDoc(doc(db, 'rooms', data.roomId), {
-                messages: arrayUnion({
-                  id: uuid(),
-                  image: downloadUrl,
-                  text: text,
-                  senderId: currentUser.uid,
-                  date: Timestamp.now(),
-                }),
-              });
-            } else {
-              return;
-            }
+            await updateDoc(doc(db, 'rooms', data.roomId), {
+              messages: arrayUnion({
+                id: uuid(),
+                image: downloadUrl,
+                text: text,
+                senderId: currentUser.uid,
+                date: Timestamp.now(),
+              }),
+            });
           });
         }
       );

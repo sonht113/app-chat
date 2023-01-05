@@ -7,7 +7,7 @@ export const UserContext = createContext();
 export const UserContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  const handleGetUser = async (keyWordSearch, setErr, currentUser) => {
+  const handleGetUser = async (keyWordSearch, currentUser) => {
     try {
       if (keyWordSearch !== '') {
         const q = query(
@@ -32,7 +32,6 @@ export const UserContextProvider = ({ children }) => {
       }
     } catch (error) {
       console.log(error);
-      setErr(false);
     }
   };
 

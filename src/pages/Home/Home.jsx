@@ -21,12 +21,11 @@ const Home = () => {
   const { data } = useContext(ChatContext);
 
   const [userName, setUserName] = useState('');
-  const [err, setErr] = useState(false);
   const [rooms, setRooms] = useState([]);
   const [activeRoom, setActiveRoom] = useState('');
 
   const handleKey = (e) => {
-    e.code === 'Enter' && handleGetUser(userName, setErr, currentUser);
+    e.code === 'Enter' && handleGetUser(userName, currentUser);
   };
 
   const handleSelectRoomSearch = async (
