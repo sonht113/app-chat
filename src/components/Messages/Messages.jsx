@@ -96,7 +96,7 @@ const Messages = ({ messages }) => {
   };
 
   return (
-    <div className='messages'>
+    <div className='messages relative'>
       <div className='bg-gray-200 show-messages scroll-view'>
         {messages.map((message, index) => (
           <Message
@@ -107,7 +107,7 @@ const Messages = ({ messages }) => {
           />
         ))}
       </div>
-      <div>
+      <div className='fixed bottom-0 w-[67%]'>
         <Input
           click={() => handleSendMessage()}
           setText={setText}

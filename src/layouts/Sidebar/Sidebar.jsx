@@ -38,12 +38,12 @@ const Sidebar = ({
         user={user}
         onSelectRoomSearch={handleSelectRoomSearch}
       />
-      <div id={8 > 5 ? 'listRoom' : ''}>
-        <div className='mb-3'>
-          <span className='px-4 py-2 background-gradient text-white'>
-            Box chat
-          </span>
-        </div>
+      <div className='mb-3'>
+        <span className='px-4 py-2 background-gradient text-white'>
+          Box chat
+        </span>
+      </div>
+      <div id={Object.entries(rooms).length > 5 ? 'listRoom' : ''}>
         {rooms &&
           Object.entries(rooms)
             ?.sort((a, b) => b[1].date - a[1].date)

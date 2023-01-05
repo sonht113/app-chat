@@ -46,8 +46,8 @@ code {
   }
 }
 
-.listRoom {
-  height: 100%;
+#listRoom {
+  height: 80vh;
   overflow-y: scroll;
 }
 
@@ -68,7 +68,7 @@ code {
 }
 
 .show-messages {
-  height: calc(100vh - 70px - 70px);
+  height: calc(100vh - 70px);
 }
 
 .scroll-view {

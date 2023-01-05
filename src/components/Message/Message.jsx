@@ -12,7 +12,7 @@ const Message = ({ message, currentUser, data }) => {
       ref={ref}
       className={`flex ${
         message.senderId === currentUser.uid ? 'flex-row-reverse' : ''
-      } px-2 pt-3 justify-start items-start gap-5 mb-5`}
+      } px-2 pt-3 justify-start items-start gap-5 mb-5 pb-[70px]`}
     >
       <div className='flex flex-col items-center'>
         <img
