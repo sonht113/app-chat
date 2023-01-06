@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthContext } from './context/AuthContext';
-import Home from './pages/Home/Home';
+import Chat from './pages/Chat';
 import Login from './pages/Login/Login';
 import Register from './pages/Register';
 
@@ -18,14 +18,14 @@ function App() {
   return (
     <div className='App'>
       <Routes>
-        <Route path='/' element={<Register />} />
-        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
+        <Route path='/' element={<Login />} />
         <Route
           index
-          path='/home'
+          path='/chat'
           element={
             <ProtectedRoute>
-              <Home />
+              <Chat />
             </ProtectedRoute>
           }
         />

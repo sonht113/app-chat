@@ -109,7 +109,7 @@ const Form = ({ onSubmit }) => {
         </form>
         <p className='mt-2 text-center text-gray-400'>
           You have an account?{' '}
-          <Link to={'/login'}>
+          <Link to={'/'}>
             <span className='text-gradient'>Login</span>
           </Link>
         </p>

@@ -15,7 +15,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { UserContext } from '../../context/UserContext';
 import { ChatContext } from '../../context/ChatContext';
 
-const Home = () => {
+const Chat = () => {
   const { currentUser } = useContext(AuthContext);
   const { handleGetUser } = useContext(UserContext);
   const { data } = useContext(ChatContext);
@@ -111,4 +111,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Chat;

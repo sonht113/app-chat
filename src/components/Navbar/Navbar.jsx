@@ -19,7 +19,7 @@ const Navbar = ({
     dispatch({ type: 'LOGOUT_USER' });
     setActiveRoom('');
     setUser(null);
-    navigate('/login');
+    navigate('/');
   };
   return (
     <div className='flex justify-between items-center px-3 py-5 bg-[#2e2d4b]'>

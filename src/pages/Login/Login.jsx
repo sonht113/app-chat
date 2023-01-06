@@ -24,7 +24,7 @@ const Login = () => {
       setCurrentUser(res.user);
       toastifySuccess('Login successfully...', durationToastify, themeToastify);
       setTimeout(() => {
-        navigate('/home');
+        navigate('/chat');
       }, 2000);
     } catch (err) {
       if (err.code === 'auth/invalid-email') {

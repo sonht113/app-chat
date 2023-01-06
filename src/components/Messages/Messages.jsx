@@ -44,7 +44,6 @@ const Messages = ({ messages }) => {
           }
         },
         (_err) => {
-          // setErr(true);
           console.log(_err);
         },
         () => {

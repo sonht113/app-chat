@@ -51,7 +51,7 @@ const Form = ({ onSubmit }) => {
         </form>
         <p className='mt-2 text-center text-gray-400'>
           You have an account?{' '}
-          <Link to={'/'}>
+          <Link to={'/register'}>
             <span className='text-gradient'>Sign up</span>
           </Link>
         </p>

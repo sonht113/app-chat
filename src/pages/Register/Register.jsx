@@ -66,7 +66,7 @@ const Register = () => {
                 themeToastify
               );
               setTimeout(() => {
-                navigate('/home');
+                navigate('/chat');
               }, 2000);
             });
           }
