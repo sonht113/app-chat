@@ -13,39 +13,36 @@ const Input = ({ click, setText, setFiles, text, files }) => {
       setFiles((prevState) => [...prevState, newImage]);
       setImagePreview((prevStated) => [
         ...prevStated,
-        URL.createObjectURL(newImage),
+        URL.createObjectURL(file),
       ]);
     }
   };
+
+  console.log(imagePreview, files);
 
   return (
     <div className='flex flex-col'>
       {imagePreview.length > 0 && (
         <div className='h-[150px] bg-white'>
           <div className='w-full flex items-center gap-5 absolute top-0 left-0 bg-white py-3 px-3'>
-            {imagePreview.map((image, index) => (
-              <div key={index} className='relative inline-block'>
-                <img
-                  className='w-[100px] h-[120px] object-cover'
-                  src={image}
-                  alt='previewImage'
-                />
-                <AiFillCloseCircle
-                  onClick={() => {
-                    console.log(index, imagePreview);
-                    if (index > -1) {
-                      const resultPreview = imagePreview.splice(index, 1);
-                      const resultFiles = files.splice(index, 1);
-                      console.log(resultPreview);
-                      console.log(resultFiles);
-                      setImagePreview(resultPreview);
-                      setFiles(resultFiles);
-                    }
-                  }}
-                  className='text-xl absolute top-[-8px] right-[-10px] cursor-pointer'
-                />
-              </div>
-            ))}
+            {imagePreview.length > 0 &&
+              imagePreview.map((image, index) => (
+                <div key={index} className='relative inline-block'>
+                  <img
+                    className='w-[100px] h-[120px] object-cover'
+                    src={image}
+                    alt='previewImage'
+                  />
+                  <AiFillCloseCircle
+                    onClick={() => {
+                      console.log(index);
+                      const result = imagePreview.splice(index, 1);
+                      setImagePreview([...result]);
+                    }}
+                    className='text-xl absolute top-[-8px] right-[-10px] cursor-pointer'
+                  />
+                </div>
+              ))}
           </div>
         </div>
       )}

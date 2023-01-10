@@ -91,6 +91,7 @@ const Messages = ({ messages }) => {
   // };
 
   // console.log(files);
+
   return (
     <div className='messages relative'>
       <div className='bg-gray-200 show-messages scroll-view'>
