@@ -43,7 +43,7 @@ const Sidebar = ({
           Box chat
         </span>
       </div>
-      <div id={Object.entries(rooms).length > 5 ? 'listRoom' : ''}>
+      <div className='pb-7' id={Object.entries(rooms).length > 5 ? 'listRoom' : ''}>
         {rooms &&
           Object.entries(rooms)
             ?.sort((a, b) => b[1].date - a[1].date)

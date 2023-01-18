@@ -10,6 +10,8 @@ const Chats = () => {
   const { data } = useContext(ChatContext);
   const [messages, setMesssages] = useState([]);
 
+  console.log(messages);
+
   useEffect(() => {
     const unSub = onSnapshot(doc(db, 'rooms', data.roomId), (doc) => {
       doc.exists() && setMesssages(doc.data().messages);

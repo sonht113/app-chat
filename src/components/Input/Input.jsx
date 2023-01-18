@@ -18,8 +18,6 @@ const Input = ({ click, setText, setFiles, text, files }) => {
     }
   };
 
-  console.log(imagePreview, files);
-
   return (
     <div className='flex flex-col'>
       {imagePreview.length > 0 && (
@@ -35,9 +33,12 @@ const Input = ({ click, setText, setFiles, text, files }) => {
                   />
                   <AiFillCloseCircle
                     onClick={() => {
-                      console.log(index);
-                      const result = imagePreview.splice(index, 1);
-                      setImagePreview([...result]);
+                      const filesFake = files;
+                      const imagePreviewFake = imagePreview;
+                      filesFake.splice(index, 1);
+                      imagePreviewFake.splice(index, 1);
+                      setImagePreview([...imagePreviewFake]);
+                      setFiles([...filesFake]);
                     }}
                     className='text-xl absolute top-[-8px] right-[-10px] cursor-pointer'
                   />

@@ -14,6 +14,7 @@ import Input from '../Input';
 import { AuthContext } from '../../context/AuthContext';
 import { ChatContext } from '../../context/ChatContext';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { async } from '@firebase/util';
 
 const Messages = ({ messages }) => {
   const [text, setText] = useState('');
@@ -22,75 +23,78 @@ const Messages = ({ messages }) => {
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
 
-  // const handleSendMessage = async () => {
-  //   if (file) {
-  //     const storageRef = ref(storage, uuid());
-  //     const upload = uploadBytesResumable(storageRef, file);
-  //     upload.on(
-  //       'state_changed',
-  //       (snapshot) => {
-  //         const progress =
-  //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-  //         console.log('Upload is ' + progress + '% done');
-  //         switch (snapshot.state) {
-  //           case 'paused':
-  //             console.log('Upload is paused');
-  //             break;
-  //           case 'running':
-  //             console.log('Upload is running');
-  //             break;
-  //           default:
-  //             break;
-  //         }
-  //       },
-  //       (_err) => {
-  //         console.log(_err);
-  //       },
-  //       () => {
-  //         getDownloadURL(upload.snapshot.ref).then(async (downloadUrl) => {
-  //           await updateDoc(doc(db, 'rooms', data.roomId), {
-  //             messages: arrayUnion({
-  //               id: uuid(),
-  //               image: downloadUrl,
-  //               text: text,
-  //               senderId: currentUser.uid,
-  //               date: Timestamp.now(),
-  //             }),
-  //           });
-  //         });
-  //       }
-  //     );
-  //   } else {
-  //     if (text !== '') {
-  //       await updateDoc(doc(db, 'rooms', data.roomId), {
-  //         messages: arrayUnion({
-  //           id: uuid(),
-  //           text: text,
-  //           senderId: currentUser.uid,
-  //           date: Timestamp.now(),
-  //         }),
-  //       });
-  //     } else {
-  //       return;
-  //     }
-  //   }
-  //   await updateDoc(doc(db, 'userChats', currentUser.uid), {
-  //     [data.roomId + '.lastMessage']: {
-  //       text,
-  //     },
-  //     [data.roomId + '.date']: serverTimestamp(),
-  //   });
-  //   await updateDoc(doc(db, 'userChats', data.user.id), {
-  //     [data.roomId + '.lastMessage']: {
-  //       text,
-  //     },
-  //     [data.roomId + '.date']: serverTimestamp(),
-  //   });
-  //   setText('');
-  //   setFile(null);
-  // };
-
-  // console.log(files);
+  const handleSendMessage = async () => {
+    if (files.length > 0) {
+      const urls = [];
+      for (const file of files) {
+        console.log(file);
+        const storageRef = ref(storage, uuid());
+        const upload = uploadBytesResumable(storageRef, file);
+        upload.on(
+          'state_changed',
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+            switch (snapshot.state) {
+              case 'paused':
+                console.log('Upload is paused');
+                break;
+              case 'running':
+                console.log('Upload is running');
+                break;
+              default:
+                break;
+            }
+          },
+          (_err) => {
+            console.log(_err);
+          },
+          () => {
+            getDownloadURL(upload.snapshot.ref).then(async (downloadUrl) => {
+              urls.push(downloadUrl);
+            });
+          }
+        );
+      }
+      await updateDoc(doc(db, 'rooms', data.roomId), {
+        messages: arrayUnion({
+          id: uuid(),
+          image: urls,
+          text: text,
+          senderId: currentUser.uid,
+          date: Timestamp.now(),
+        }),
+      });
+    } else {
+      if (text !== '') {
+        await updateDoc(doc(db, 'rooms', data.roomId), {
+          messages: arrayUnion({
+            id: uuid(),
+            text: text,
+            senderId: currentUser.uid,
+            date: Timestamp.now(),
+          }),
+        });
+      } else {
+        return;
+      }
+    }
+    await updateDoc(doc(db, 'userChats', currentUser.uid), {
+      [data.roomId + '.lastMessage']: {
+        text,
+      },
+      [data.roomId + '.date']: serverTimestamp(),
+    });
+    await updateDoc(doc(db, 'userChats', data.user.id), {
+      [data.roomId + '.lastMessage']: {
+        text,
+      },
+      [data.roomId + '.date']: serverTimestamp(),
+    });
+    setText('');
+    setFiles([]);
+  };
 
   return (
     <div className='messages relative'>
@@ -106,7 +110,7 @@ const Messages = ({ messages }) => {
       </div>
       <div className='fixed bottom-0 w-[67%]'>
         <Input
-          click={() => {}}
+          click={handleSendMessage}
           setText={setText}
           text={text}
           setFiles={setFiles}

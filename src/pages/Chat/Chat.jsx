@@ -97,7 +97,7 @@ const Chat = () => {
             activeRoom={activeRoom}
           />
         </div>
-        <div className='col-span-8 bg-[#7777a7]'>
+        <div className='col-span-8 bg-[#7777a7] h-full'>
           {data.roomId !== 'null' ? (
             <Chats />
           ) : (
