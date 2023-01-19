@@ -26,46 +26,43 @@ const Messages = ({ messages }) => {
   const handleSendMessage = async () => {
     if (files.length > 0) {
       const urls = [];
-      for (const file of files) {
-        console.log(file);
-        const storageRef = ref(storage, uuid());
-        const upload = uploadBytesResumable(storageRef, file);
-        upload.on(
-          'state_changed',
-          (snapshot) => {
-            const progress =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log('Upload is ' + progress + '% done');
-            switch (snapshot.state) {
-              case 'paused':
-                console.log('Upload is paused');
-                break;
-              case 'running':
-                console.log('Upload is running');
-                break;
-              default:
-                break;
-            }
-          },
-          (_err) => {
-            console.log(_err);
-          },
-          () => {
-            getDownloadURL(upload.snapshot.ref).then(async (downloadUrl) => {
-              urls.push(downloadUrl);
-            });
+      const storageRef = ref(storage, uuid());
+      const upload = uploadBytesResumable(storageRef, files[0]);
+      upload.on(
+        'state_changed',
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log('Upload is ' + progress + '% done');
+          switch (snapshot.state) {
+            case 'paused':
+              console.log('Upload is paused');
+              break;
+            case 'running':
+              console.log('Upload is running');
+              break;
+            default:
+              break;
           }
-        );
-      }
-      await updateDoc(doc(db, 'rooms', data.roomId), {
-        messages: arrayUnion({
-          id: uuid(),
-          image: urls,
-          text: text,
-          senderId: currentUser.uid,
-          date: Timestamp.now(),
-        }),
-      });
+        },
+        (_err) => {
+          console.log(_err);
+        },
+        () => {
+          getDownloadURL(upload.snapshot.ref).then(async (downloadUrl) => {
+            urls.push(downloadUrl);
+            await updateDoc(doc(db, 'rooms', data.roomId), {
+              messages: arrayUnion({
+                id: uuid(),
+                image: downloadUrl,
+                text: text,
+                senderId: currentUser.uid,
+                date: Timestamp.now(),
+              }),
+            });
+          });
+        }
+      );
     } else {
       if (text !== '') {
         await updateDoc(doc(db, 'rooms', data.roomId), {
