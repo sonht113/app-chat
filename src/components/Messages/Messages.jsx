@@ -9,60 +9,29 @@ import {
 import { v4 as uuid } from 'uuid';
 
 import Message from '../Message';
-import { db, storage } from '../../firebase';
+import { db } from '../../firebase';
 import Input from '../Input';
 import { AuthContext } from '../../context/AuthContext';
 import { ChatContext } from '../../context/ChatContext';
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import { async } from '@firebase/util';
 
 const Messages = ({ messages }) => {
   const [text, setText] = useState('');
-  const [files, setFiles] = useState([]);
+  const [urls, setUrls] = useState([]);
 
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
 
   const handleSendMessage = async () => {
-    if (files.length > 0) {
-      const urls = [];
-      const storageRef = ref(storage, uuid());
-      const upload = uploadBytesResumable(storageRef, files[0]);
-      upload.on(
-        'state_changed',
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log('Upload is ' + progress + '% done');
-          switch (snapshot.state) {
-            case 'paused':
-              console.log('Upload is paused');
-              break;
-            case 'running':
-              console.log('Upload is running');
-              break;
-            default:
-              break;
-          }
-        },
-        (_err) => {
-          console.log(_err);
-        },
-        () => {
-          getDownloadURL(upload.snapshot.ref).then(async (downloadUrl) => {
-            urls.push(downloadUrl);
-            await updateDoc(doc(db, 'rooms', data.roomId), {
-              messages: arrayUnion({
-                id: uuid(),
-                image: downloadUrl,
-                text: text,
-                senderId: currentUser.uid,
-                date: Timestamp.now(),
-              }),
-            });
-          });
-        }
-      );
+    if (urls.length > 0) {
+      await updateDoc(doc(db, 'rooms', data.roomId), {
+        messages: arrayUnion({
+          id: uuid(),
+          image: urls,
+          text: text,
+          senderId: currentUser.uid,
+          date: Timestamp.now(),
+        }),
+      });
     } else {
       if (text !== '') {
         await updateDoc(doc(db, 'rooms', data.roomId), {
@@ -90,7 +59,6 @@ const Messages = ({ messages }) => {
       [data.roomId + '.date']: serverTimestamp(),
     });
     setText('');
-    setFiles([]);
   };
 
   return (
@@ -100,6 +68,7 @@ const Messages = ({ messages }) => {
           <Message
             key={index}
             message={message}
+            images={message?.image}
             currentUser={currentUser}
             data={data}
           />
@@ -110,8 +79,7 @@ const Messages = ({ messages }) => {
           click={handleSendMessage}
           setText={setText}
           text={text}
-          setFiles={setFiles}
-          files={files}
+          setUrls={setUrls}
         />
       </div>
     </div>
