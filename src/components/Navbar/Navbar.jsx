@@ -23,7 +23,7 @@ const Navbar = ({
   };
   return (
     <div className='flex justify-between items-center px-3 py-5 bg-[#2e2d4b]'>
-      <div className='font-bold text-lg text-gradient'>Moutain Chat</div>
+      <div className='font-bold text-lg text-gradient'>Mountain Chat</div>
       <div className='flex items-center'>
         <div className='flex items-center mr-3'>
           <img
