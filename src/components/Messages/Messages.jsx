@@ -80,6 +80,7 @@ const Messages = ({ messages }) => {
           setText={setText}
           text={text}
           setUrls={setUrls}
+          urls={urls}
         />
       </div>
     </div>

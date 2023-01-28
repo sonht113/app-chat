@@ -27,11 +27,11 @@ const Message = ({ message, currentUser, data, images }) => {
         onClose={handleCloseModal}
         className='flex justify-center items-center'
       >
-        <Box className='w-[600px] max-h-[100vh]'>
+        <Box>
           <img
             src={imagePreview}
-            alt='preview-image'
-            className='object-cover'
+            alt='preview'
+            className='h-[90vh] w-[600px] object-contain'
           />
         </Box>
       </Modal>
@@ -63,7 +63,7 @@ const Message = ({ message, currentUser, data, images }) => {
               <p
                 className={`${
                   message.senderId === currentUser.uid ? 'owner' : 'guest'
-                } py-2 px-3 rounded-md text-sm`}
+                } py-2 px-3 rounded-md text-sm mb-2`}
               >
                 {message.text}
               </p>
@@ -88,7 +88,7 @@ const Message = ({ message, currentUser, data, images }) => {
                     className='w-[130px] h-[150px] object-cover cursor-pointer group'
                     src={i}
                     key={i}
-                    alt='image'
+                    alt=''
                   />
                   <div className='absolute w-[130px] h-[150px] top-0 left-0 invisible group-hover:visible duration-150 transition-all'>
                     <PopupDetailImage click={() => handleOpenModal(i)} />
@@ -97,22 +97,18 @@ const Message = ({ message, currentUser, data, images }) => {
               ))}
             </div>
           ) : (
-            <ImageList
-              sx={{ width: 400, height: 350 }}
-              cols={3}
-              rowHeight={150}
-            >
+            <ImageList sx={{ width: 400 }} cols={3} rowHeight={150}>
               {images &&
                 images.map((i) => (
                   <ImageListItem key={i} className='group'>
                     <img
-                      className='cursor-pointer'
-                      src={`${i}?w=164&h=164&fit=crop&auto=format`}
+                      className='cursor-pointer !w-[130px] !h-[150px] !object-cover'
+                      src={`${i}?fit=crop&auto=format`}
                       srcSet={`${i}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                      alt='image'
+                      alt=''
                       loading='lazy'
                     />
-                    <div className='absolute w-[131px] h-[150px] top-0 left-0 invisible group-hover:visible duration-150 transition-all'>
+                    <div className='absolute w-[130px] h-[150px] top-0 left-0 invisible group-hover:visible duration-150 transition-all'>
                       <PopupDetailImage click={() => handleOpenModal(i)} />
                     </div>
                   </ImageListItem>

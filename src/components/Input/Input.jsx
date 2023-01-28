@@ -9,77 +9,60 @@ import { AddImage, Attach } from '../../assets/images/index';
 import { storage } from '../../firebase';
 import LinearProgressWithLabel from '../../components/LinearProgressWithLabel';
 
-const Input = ({ click, setText, text, setUrls }) => {
-  const [imagePreview, setImagePreview] = useState([]);
+const Input = ({ click, setText, text, setUrls, urls }) => {
   const [progress, setProgress] = useState(0);
-  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState([]);
 
   const handleChangeImage = (e) => {
     for (let file of e.target.files) {
-      const newImage = file;
-      newImage['id'] = uuid();
-      setImages((prevState) => [...prevState, newImage]);
-      setImagePreview((prevStated) => [
-        ...prevStated,
-        URL.createObjectURL(file),
-      ]);
+      setLoading((prevState) => [...prevState, file]);
+    }
+    for (let file of e.target.files) {
+      const storageRef = ref(storage, uuid());
+      new Compressor(file, {
+        quality: 0.6,
+        success(result) {
+          const upload = uploadBytesResumable(storageRef, result);
+          upload.on(
+            'state_changed',
+            (snapshot) => {
+              const progress =
+                Math.round(snapshot.bytesTransferred / snapshot.totalBytes) *
+                100;
+              setProgress(progress);
+            },
+            (_err) => {
+              console.log(_err);
+            },
+            () => {
+              getDownloadURL(upload.snapshot.ref).then(async (downloadUrl) => {
+                setUrls((prevState) => [...prevState, downloadUrl]);
+              });
+            }
+          );
+        },
+        error(err) {
+          console.log(err);
+        },
+      });
     }
   };
 
   const handleRemoveImage = (index) => {
-    const imagesFake = images;
-    const imagePreviewFake = imagePreview;
-    imagesFake.splice(index, 1);
-    imagePreviewFake.splice(index, 1);
-    setImagePreview([...imagePreviewFake]);
-    setImages([...imagesFake]);
+    const urlsFake = urls;
+    urlsFake.splice(index, 1);
+    setUrls([...urlsFake]);
   };
-
-  useEffect(() => {
-    if (images.length > 0) {
-      images.map((image) => {
-        const storageRef = ref(storage, uuid());
-        new Compressor(image, {
-          quality: 0.6,
-          success(result) {
-            const upload = uploadBytesResumable(storageRef, result);
-            upload.on(
-              'state_changed',
-              (snapshot) => {
-                const progress =
-                  Math.round(snapshot.bytesTransferred / snapshot.totalBytes) *
-                  100;
-                setProgress(progress);
-              },
-              (_err) => {
-                console.log(_err);
-              },
-              () => {
-                getDownloadURL(upload.snapshot.ref).then(
-                  async (downloadUrl) => {
-                    setUrls((prevState) => [...prevState, downloadUrl]);
-                  }
-                );
-              }
-            );
-          },
-          error(err) {
-            console.log(err);
-          },
-        });
-      });
-    }
-  }, [images]);
 
   return (
     <div className='flex flex-col'>
-      {imagePreview.length > 0 && (
+      {(loading.length > 0 || urls.length > 0) && (
         <div className='h-[150px] bg-white'>
           <div className='w-full flex items-center gap-5 absolute top-0 left-0 bg-white py-3 px-3'>
-            {imagePreview.length > 0 &&
-              imagePreview.map((image, index) => (
-                <div key={image.name} className='relative inline-block'>
-                  {progress < 100 ? (
+            {urls.length === 0 &&
+              loading.map((file, _index) => (
+                <div key={file.name} className='relative inline-block'>
+                  {progress < 100 && (
                     <div>
                       <Skeleton
                         variant='rectangular'
@@ -88,14 +71,17 @@ const Input = ({ click, setText, text, setUrls }) => {
                       />
                       <LinearProgressWithLabel value={progress} />
                     </div>
-                  ) : (
-                    <img
-                      className='w-[100px] h-[120px] object-cover'
-                      src={image}
-                      alt='previewImage'
-                    />
                   )}
-
+                </div>
+              ))}
+            {urls.length > 0 &&
+              urls.map((url, index) => (
+                <div key={url} className='relative inline-block'>
+                  <img
+                    className='w-[100px] h-[120px] object-cover'
+                    src={url}
+                    alt='previewImage'
+                  />
                   <AiFillCloseCircle
                     onClick={() => handleRemoveImage(index)}
                     className='text-xl absolute top-[-8px] right-[-10px] cursor-pointer'
@@ -130,8 +116,7 @@ const Input = ({ click, setText, text, setUrls }) => {
           <button
             onClick={() => {
               click();
-              setImages([]);
-              setImagePreview([]);
+              setLoading([]);
               setUrls([]);
             }}
             className='px-3 py-1 border rounded-md text-sm bg-green-500 text-white'
