@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, LinearProgress } from '@mui/material';
+import { Box, LinearProgress } from '@mui/material';
 
 const LinearProgressWithLabel = (props) => {
   return (
