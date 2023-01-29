@@ -91,6 +91,7 @@ const Chat = () => {
           <Sidebar
             handleKey={handleKey}
             setUserName={setUserName}
+            userName={userName}
             handleSelectRoomSearch={handleSelectRoomSearch}
             rooms={rooms}
             setActiveRoom={setActiveRoom}

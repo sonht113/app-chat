@@ -12,6 +12,7 @@ const Sidebar = ({
   handleSelectRoomSearch,
   rooms,
   setActiveRoom,
+  userName,
   activeRoom,
 }) => {
   const { currentUser, setCurrentUser } = useContext(AuthContext);
@@ -37,13 +38,17 @@ const Sidebar = ({
         handleKey={handleKey}
         user={user}
         onSelectRoomSearch={handleSelectRoomSearch}
+        userName={userName}
       />
       <div className='mb-3'>
         <span className='px-4 py-2 background-gradient text-white'>
           Box chat
         </span>
       </div>
-      <div className='pb-7' id={Object.entries(rooms).length > 5 ? 'listRoom' : ''}>
+      <div
+        className='pb-7'
+        id={Object.entries(rooms).length > 5 ? 'listRoom' : ''}
+      >
         {rooms &&
           Object.entries(rooms)
             ?.sort((a, b) => b[1].date - a[1].date)
