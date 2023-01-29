@@ -4,7 +4,7 @@ export const toastifyError = (title, duration, theme) => {
   toast.error(title, {
     position: 'bottom-right',
     autoClose: duration,
-    hideProgressBar: false,
+    hideProgressBar: true,
     closeOnClick: true,
     pauseOnHover: true,
     draggable: true,
@@ -17,7 +17,7 @@ export const toastifySuccess = (title, duration, theme) => {
   toast.success(title, {
     position: 'bottom-right',
     autoClose: duration,
-    hideProgressBar: false,
+    hideProgressBar: true,
     closeOnClick: true,
     pauseOnHover: true,
     draggable: true,

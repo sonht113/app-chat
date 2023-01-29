@@ -12,7 +12,7 @@ const Login = () => {
   const { setCurrentUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
-  const durationToastify = 1500;
+  const durationToastify = 800;
   const themeToastify = 'dark';
 
   const handleSubmit = async (data) => {
@@ -23,7 +23,9 @@ const Login = () => {
       if (!res) return;
       setCurrentUser(res.user);
       toastifySuccess('Login successfully...', durationToastify, themeToastify);
-      navigate('/chat');
+      setTimeout(() => {
+        navigate('/chat');
+      }, 900);
     } catch (err) {
       if (err.code === 'auth/invalid-email') {
         return toastifyError(
