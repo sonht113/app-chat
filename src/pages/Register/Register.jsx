@@ -11,7 +11,7 @@ import { toastifyError, toastifySuccess } from '../../utils/toast';
 import Toastify from '../../components/Toastify';
 
 const Register = () => {
-  const durationToastify = 1000;
+  const durationToastify = 800;
   const themeToastify = 'dark';
 
   const navigate = useNavigate();
@@ -60,7 +60,9 @@ const Register = () => {
                       durationToastify,
                       themeToastify
                     );
-                    navigate('/chat');
+                    setTimeout(() => {
+                      navigate('/chat');
+                    }, 900);
                   }
                 );
               }

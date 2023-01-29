@@ -49,6 +49,9 @@ const Form = ({ onSubmit }) => {
           </div>
           <Button title={'Login'} />
         </form>
+        <p className='text-sm text-gray-400 text-center cursor-pointer hover:underline'>
+          <Link to={'/forgot-password'}>Forget password?</Link>
+        </p>
         <p className='mt-2 text-center text-gray-400'>
           You have an account?{' '}
           <Link to={'/register'}>
