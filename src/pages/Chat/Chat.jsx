@@ -23,6 +23,7 @@ const Chat = () => {
   const [userName, setUserName] = useState('');
   const [rooms, setRooms] = useState([]);
   const [activeRoom, setActiveRoom] = useState('');
+  const [userInfoAtRoomActive, setUserInfoAtRoomActive] = useState(null);
 
   const handleKey = (e) => {
     e.code === 'Enter' && handleGetUser(userName, currentUser);
@@ -96,11 +97,12 @@ const Chat = () => {
             rooms={rooms}
             setActiveRoom={setActiveRoom}
             activeRoom={activeRoom}
+            setUserInfoAtRoomActive={setUserInfoAtRoomActive}
           />
         </div>
         <div className='col-span-8 bg-[#7777a7] h-full'>
           {data.roomId !== 'null' ? (
-            <Chats />
+            <Chats userInfoAtRoomActive={userInfoAtRoomActive} />
           ) : (
             <div className='w-full h-[100vh] flex justify-center items-center'>
               <span className='text-white'>Please choose room chat...</span>

@@ -14,12 +14,14 @@ const Sidebar = ({
   setActiveRoom,
   userName,
   activeRoom,
+  setUserInfoAtRoomActive,
 }) => {
   const { currentUser, setCurrentUser } = useContext(AuthContext);
   const { user, setUser } = useContext(UserContext);
   const { dispatch } = useContext(ChatContext);
 
   const handleSelect = (payload) => {
+    setUserInfoAtRoomActive(payload);
     dispatch({ type: 'CHANGE_USER', payload: payload });
     setActiveRoom(payload.userName);
   };
@@ -56,6 +58,7 @@ const Sidebar = ({
               <Room
                 activeRoom={activeRoom === room[1].userInfo.userName}
                 click={() => {
+                  console.log(room[1]);
                   handleSelect(room[1].userInfo);
                 }}
                 key={room[0]}

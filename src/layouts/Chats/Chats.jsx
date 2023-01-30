@@ -6,11 +6,9 @@ import Chat from '../../components/Chat';
 import Messages from '../../components/Messages';
 import { db } from '../../firebase';
 
-const Chats = () => {
+const Chats = ({ userInfoAtRoomActive }) => {
   const { data } = useContext(ChatContext);
   const [messages, setMesssages] = useState([]);
-
-  //console.log(messages);
 
   useEffect(() => {
     const unSub = onSnapshot(doc(db, 'rooms', data.roomId), (doc) => {
@@ -21,7 +19,10 @@ const Chats = () => {
   return (
     <React.Fragment>
       <Chat roomActive={data} />
-      <Messages messages={messages} />
+      <Messages
+        messages={messages}
+        userInfoAtRoomActive={userInfoAtRoomActive}
+      />
     </React.Fragment>
   );
 };
